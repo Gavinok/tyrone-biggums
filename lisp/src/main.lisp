@@ -6,7 +6,7 @@
   (let* ((this-server (make-new-server)))
     ;;     ;; TODO
     ;;     (chat.StartChat server.In, server.Out)
-    (pws:define-resource "/err"
+    (pws:define-resource "/"
 
       :open (lambda (socket)
 	      (handle-new-connection this-server socket))
@@ -22,7 +22,11 @@
 	       (declare (ignore socket))
 	       (print "Socket leaving error server.")))
     ;; Start server at ws://127.0.0.1:5000/err
-    (defparameter *server* (pws:server 5000 :multi-thread))))
+    (let ((port 5000))
+      (format t "server started on ~a" port)
+      (defparameter *server* (pws:server port :multi-thread)))
+    (loop while *server*)))
+
 ;;; Messages
 (defstruct Message
   (type    nil  :type (member open text message close))
@@ -62,7 +66,7 @@
       (setf (gethash connection (server-sockets s))
 	    (make-socket :id id
 			 :out (make-instance 'chanl:unbounded-channel)))
-      (pws:send connection (format nil "Welcome to error server ~a."
+      (pws:send connection (format nil "Welcome to the Chat server ~a."
 				   id)))))
 
 (DECLAIM (ftype (function  (Server portal:Websocket string) (Array (Unsigned-Byte 8)))

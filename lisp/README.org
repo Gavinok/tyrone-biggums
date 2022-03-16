@@ -1,0 +1,67 @@
+#+TITLE: Gavin's tyrone-biggums
+Implementation of a simple websockets chat client in Common Lisp
+
+* Overview
+This is a simple websockets based chat room
+
+** Features
+** History
+** Motivation
+* Usage
+Get the latest binary and execute it with ~./lisp~
+
+Finally connect to the chat room with a tool like [[https://github.com/vi/websocat
+][websocat]]
+
+#+begin_src bash
+websocat ws://127.0.0.1:5000/
+#+end_src
+
+* Documentation
+To build and hack on the project follow the bellow steps
+
+** Setting up the build environment
+To run the project simply install [[https://github.com/roswell/roswell][roswell]] then install [[https://github.com/fukamachi/qlot
+ ][qlot]] like so
+
+#+begin_src bash
+  ros install qlot
+#+end_src
+
+Make sure =~/.roswell/bin= is in your path.
+
+** (A) Building The Project
+Finally run the makefile at the root of this project.
+
+#+begin_src bash
+  make
+#+end_src
+
+** (B) Hacking on the project
+To install the dependencies from quicklisp run
+
+#+begin_src bash
+  qlot install
+#+end_src
+
+In this projects root directory. Finally you can enter a repl using
+#+begin_src bash
+  qlot run
+#+end_src
+
+To enter a repl with the project local quicklisp.
+
+Finally load the project from that repl using.
+
+#+begin_src lisp
+  (ql:quickload :lisp)
+#+end_src
+
+* License
+Copyright (c) 2022 Authors: Gavin Jaeger-Freeborn
+Licensed under the ISC License.
+
+* COMMENT Local Variables
+# Local Variables:
+# eval: (add-hook 'after-save-hook #'org-md-export-to-markdown nil t)
+# End:
