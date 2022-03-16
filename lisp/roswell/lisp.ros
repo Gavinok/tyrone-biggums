@@ -10,8 +10,11 @@ exec ros -Q -- $0 "$@"
   (:use :cl))
 (in-package :ros.script.lisp.3856391341)
 
-(defun main (&rest argv)
+(defun main (&optional port &rest argv)
   (declare (ignorable argv))
-  (lisp::main)
+  ;; Start server at ws://127.0.0.1:5000/err
+  (lisp::main (if port
+                  (parse-integer port)
+                  5000))
   (loop :while lisp::*server*))
 ;;; vim: set ft=lisp lisp:

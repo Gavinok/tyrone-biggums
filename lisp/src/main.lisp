@@ -2,7 +2,7 @@
 (in-package #:lisp)
 
 (defparameter *server* nil)
-(defun main ()
+(defun main (port)
   (let* ((this-server (make-new-server)))
     ;;     ;; TODO
     ;;     (chat.StartChat server.In, server.Out)
@@ -21,10 +21,9 @@
       :close (lambda (socket)
 	       (declare (ignore socket))
 	       (print "Socket leaving error server.")))
-    ;; Start server at ws://127.0.0.1:5000/err
-    (let ((port 5000))
-      (format t "server started on ~a" port)
-      (defparameter *server* (pws:server port :multi-thread)))))
+
+    (format t "server started on ~a" port)
+    (defparameter *server* (pws:server port :multi-thread))))
 
 ;;; Messages
 (defstruct Message
