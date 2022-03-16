@@ -36,13 +36,15 @@
 	       :message (format nil "!join successful: ~a" id))))
 
 (declaim (ftype (function (chat message) t) process-message))
-(defun process-message (chat message)
-  "process an incomming MESSAGE sent to CHAT"
-  (bt:with-lock-held ((chat-mu chat))
-    (let ((messages (make-array 10 :element-type message :adjustable t))
-	  (messages (make-array 10 :element-type message :adjustable t)))
-      (if (chat-lookup-channels  (message-id message) chat)
-	  (when ) )))))
+;; (defun process-message (chat message)
+;;   "process an incomming MESSAGE sent to CHAT"
+;;   (bt:with-lock-held ((chat-mu chat))
+;;     (let ((messages (make-array 10 :element-type message :adjustable t))
+;; 	  (messages (make-array 10 :element-type message :adjustable t)))
+;;       (if (chat-lookup-channels  (message-id message) chat)
+;; 	  (when ) ))))
+
+
 ;; func (c *Chat) processMessage(message *server.Message) {
 ;; 	c.mu.Lock()
 ;; 	defer c.mu.Unlock()
