@@ -4,3 +4,4 @@ typescript/node_modules
 /rust/cache
 go/main
 
+lisp/.qlot/
