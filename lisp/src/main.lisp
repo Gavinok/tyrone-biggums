@@ -68,37 +68,19 @@
       (pws:send connection (format nil "Welcome to the Chat server ~a."
 				   id)))))
 
-(DECLAIM (ftype (function  (Server portal:Websocket string) (Array (Unsigned-Byte 8)))
+(DECLAIM (ftype (function  (Server portal:Websocket string) String)
                 handle-new-message))
 (defun handle-new-message (s connection message)
-  (let ((brodcasted-message (format nil "from User ~a: ~a"
-				    (socket-id
-				     (gethash connection (server-sockets s)))
-				    (the string
-					 (getf (jonathan:parse message) :|again|)))))
+  (let ((brodcasted-message (handler-case (format nil "from User ~a: ~a"
+                                                  (socket-id
+                                                   (gethash connection (server-sockets s)))
+                                                  (the string (getf
+                                                               (jonathan:parse message) :|message|)))
+                              (error (c)
+                                (format t "Please submit valid json like so {\"message\": \"Hey! what's up?\"} ~a" c)))))
 
-    (type-of connection)
-    (pws:send connection brodcasted-message)))
-
-
-(DECLAIM (ftype (Function (Server chanl:Bounded-Channel) (values Server &optional))
-		server-recv-message))
-(defun server-recv-message (server out)
-  ;; (chanl:pexec ()
-  ;;   (loop (chanl:select
-  ;;   	    ((chanl:recv out msgs)
-  ;;   	     (loop
-  ;;   	       :for msg :in msgs
-  ;;   	       :count msg :into num-of-messages
-  ;;   	       :do (chanl:send (socket-out
-  ;;   				(gethash (message-id msg)
-  ;;   					 (server-sockets server)))
-  ;;   			       msg)
-  ;;   	       :finally (format t "server sent ~a messages" num-of-messages)))
-  ;;   	    ((chanl:recv (server-from-socket server) msg)
-  ;;   	     (when (eql (message-type msg)
-  ;;   			:close)
-  ;;   	       (remhash (message-id msg)
-  ;;   			(server-sockets server)))
-  ;;   	     (chanl:send (server-in server) msg)))))
-  server)
+    ;; Brodcast to all sockets
+    (chanl:pexec ()
+      (loop :for con :being :the :hash-key :of (server-sockets s)
+            :do (pws:send (the portal:websocket con) brodcasted-message)))
+    brodcasted-message))
