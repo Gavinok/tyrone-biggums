@@ -7,6 +7,8 @@ This is a simple websockets based chat room
 ** Features
 ** History
 ** Motivation
+Wanted to show off that Lisp can be just as fast if not faster than Go
+while adding a ton of features and flexibility
 * Usage
 Get the latest binary and execute it with ~./lisp~
 
