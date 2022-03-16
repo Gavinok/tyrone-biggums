@@ -9,8 +9,7 @@
   :depends-on (#:chanl        ;; For go like channels
                #:bt-semaphore ;; for threading and locking
                #:portal
-               #:jonathan
-               #:alexandria)
+               #:jonathan)
   :components ((:module "src"
                 :components
                 ((:file "package")
